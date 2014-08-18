@@ -1,0 +1,18 @@
+function forwardMessage(){
+  var label = GmailApp.getUserLabelByName('bill');
+  var labelcomplete = GmailApp.getUserLabelByName('ProcessedByAppScript');
+  var threads = label.getThreads(0,20);
+  var fromAddress = '<examplefrom@example.com>'
+  
+  for (var i = 0; i < threads.length; i++) {
+    var messages = threads[i].getMessages();
+    for (var j = 0; j < messages.length; j++) {
+      if (messages[j].isUnread() && messages[j].getFrom() == fromAddress) {
+        messages[j].forward('exampletoo@example.com');
+        threads[i].markRead();
+        threads[i].addLabel(labelcomplete);
+        Logger.log("Success on:" + Date());
+      }
+    }
+  }
+};
